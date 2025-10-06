@@ -10,6 +10,19 @@ public class Main {
         EstudianteManager estudianteManager = new EstudianteManager();
         while (true){
             showMenu();
+            int eleccion = getIntValido(sc, "Elegir una opción: ");
+            switch (eleccion){
+                case 1 -> addEstudiante(sc, estudianteManager);
+                case 2 -> listAllEstudiantes(estudianteManager);
+                case 3 -> searchEstudiante(sc, estudianteManager);
+                case 4 -> showMedia(estudianteManager);
+                case 5 -> showMejorEstudiante(estudianteManager);
+                case 6 -> {
+                    System.out.println("Saliendo");
+                    return;
+                }
+                default -> System.out.println("Opción Invalida, intentalo de nuevo");
+            }
         }
     }
 
@@ -75,13 +88,24 @@ public class Main {
         }
     }
 
+    private static int getIntValido(Scanner scanner, String msg){
+        while (true){
+            try {
+                System.out.println(msg);
+                return Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e){
+                System.out.println("Input invalido");
+            }
+        }
+    }
+
     private static double getDoubleValido(Scanner scanner, String msg){
         while (true){
             try {
                 System.out.println(msg);
                 return Double.parseDouble(scanner.nextLine().trim());
             } catch (NumberFormatException e){
-                System.out.println("Calificacion invalida, intentelo de nuevo1111");
+                System.out.println("Calificacion invalida, intentelo de nuevo");
             }
         }
     }
