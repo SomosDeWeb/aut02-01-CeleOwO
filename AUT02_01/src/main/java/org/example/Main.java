@@ -39,12 +39,28 @@ public class Main {
     private static void addEstudiante(Scanner scanner, EstudianteManager estudianteManager){
         System.out.println("Nombre de estudiante: ");
         String nombre = scanner.nextLine().trim();
-        double calificacion = getDoubleValido(scanner, "Calificación del estudiante: ");
-        if (calificacion < 0 || calificacion > 10){
-            System.out.println("La calificación debe estar entre 0 y 10");
+        if (nombre.isEmpty() || !nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\s]+")) {
+            System.out.println("El nombre debe contener solo letras y no puede estar vacío.");
             return;
         }
-        estudianteManager.addEstudiante(nombre,calificacion);
+        if (estudianteManager.existsEstudiante(nombre)) {
+            System.out.println("Ya existe un estudiante con ese nombre.");
+            return;
+        }
+        double calificacion = getDoubleValido(scanner, "Calificación media del estudiante: ");
+        if (calificacion < 0 || calificacion > 10){
+            System.out.println("La calificación media debe estar entre 0 y 10");
+            return;
+        }
+        int edad = getIntValido(scanner, "Edad del estudiante: ");
+        if (edad < 0){
+            System.out.println("La edad no puede ser negativa.");
+            return;
+        }
+        System.out.println("¿Está matriculado? (s/n): ");
+        String matriculadoInput = scanner.nextLine().trim().toLowerCase();
+        boolean matriculado = matriculadoInput.equals("s");
+        estudianteManager.addEstudiante(nombre,calificacion,edad, matriculado);
         System.out.println("Estudiante añadido.");
     }
 

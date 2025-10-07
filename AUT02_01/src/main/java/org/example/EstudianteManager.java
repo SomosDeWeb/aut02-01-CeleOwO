@@ -9,8 +9,8 @@ public class EstudianteManager{
         this.estudiantes = new ArrayList<>();
     }
 
-    public void addEstudiante(String nombre, double calificacion){
-        estudiantes.add(new estudiante(nombre,calificacion));
+    public void addEstudiante(String nombre, double calificacion, int edad, boolean matriculado){
+        estudiantes.add(new estudiante(nombre,calificacion,edad, matriculado));
     }
 
     public List<estudiante> getAllEstudiantes(){
@@ -19,7 +19,7 @@ public class EstudianteManager{
 
     public estudiante searchByName(String nombre){
         for (estudiante estudiante : estudiantes){
-            if(estudiante.getNombre().equalsIgnoreCase(nombre)){
+            if(estudiante.getNombre().toLowerCase().contains(nombre.toLowerCase())){
                 return estudiante;
             }
         }
@@ -34,19 +34,30 @@ public class EstudianteManager{
         for (estudiante estudiante : estudiantes){
             total += estudiante.getCalificaciones();
         }
-        return total;
+        return total/estudiantes.size();
     }
+
+
 
     public estudiante getBestEstudiante(){
         if(estudiantes.isEmpty()){
             return null;
         }
-        estudiante mejor = estudiantes.get(0);
+        estudiante mejor = estudiantes.getFirst();
         for (estudiante estudiante : estudiantes){
             if (estudiante.getCalificaciones()> mejor.getCalificaciones()){
                 mejor = estudiante;
             }
         }
         return mejor;
+    }
+
+    public boolean existsEstudiante(String nombre) {
+        for (estudiante e : estudiantes) {
+            if (e.getNombre().equalsIgnoreCase(nombre)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
